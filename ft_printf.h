@@ -28,7 +28,6 @@ typedef unsigned long long	t_ull;
 int		ft_printf(const char *format, ...);
 
 //ft_str_manage.c
-char	*ft_new_str(unsigned long long *size, int *err);
-char	*ft_str_double(unsigned long long *size, int *err, char *old_str);
+int		join_plain_str(const char **format, char **print_str);
 
 #endif

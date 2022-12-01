@@ -12,20 +12,20 @@
 
 #include "ft_printf.h"
 
-static int	return_strlen(t_ull print_len)
+//need change, use ft_strlen
+static int	return_strlen(char *print_str)
 {
-	int	len;
+	t_ull	len;
 
-	if (print_len > LLONG_MAX)
+	len = ft_strlen(print_str);
+	if (len > LLONG_MAX)
 		len = 0;
-	else if (print_len > INT_MAX)
+	else if (len > INT_MAX)
 		len = ERR_RETURN_OVER;
-	else
-		len = (int)print_len;
-	return (len);
+	return ((int)len);
 }
 
-static int	ft_print_str(char *print_str, t_ull print_len, int err)
+static int	ft_print_str(char *print_str, int err)
 {
 	int	re;
 
@@ -34,7 +34,7 @@ static int	ft_print_str(char *print_str, t_ull print_len, int err)
 		re = err;
 	else
 	{
-		re = return_strlen(print_len);
+		re = return_strlen(print_str);
 		if (re != ERR_RETURN_OVER)
 			ft_putstr_fd(print_str, 1);
 	}
@@ -47,17 +47,15 @@ int	ft_printf(const char *format, ...)
 	va_list		ap;
 	char		*print_str;
 	int			err;
-	t_ull		print_len;
 
 	err = 0;
 	va_start(ap, format);
 	while (*format)
 	{
 		if (*format != '%')
-			write(1, format, 1);
+			err = join_plain_str(&format, &print_str);
 		else
 			parse(&format);
-		format++;
 		if (err)
 			break ;
 	}

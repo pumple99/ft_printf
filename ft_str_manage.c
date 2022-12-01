@@ -12,28 +12,24 @@
 
 #include "ft_printf.h"
 
-char	*ft_new_str(t_ull *size, int *err)
+//need change, not complete
+int	join_plain_str(const char **format, char **print_str)
 {
-	char	*str;
-
-	str = (char *)malloc(*size);
-	if (str == 0)
-		*err = ERR_MALLOC;
-	return (str);
-}
-
-char	*ft_str_double(t_ull *size, int *err, char *old_str)
-{
-	char	*new_str;
-	t_ull	new_size;
-
-	if (*size * 2 > *size)
-		new_size = *size * 2;
-	else
-	{
-		*err = ERR_MALLOC;
-		free(old_str);
-		return (0);
-	}
-	return (new_str);
+	int		err;
+	t_ull	plain_len;
+	char	*plain_str;
+	char	*temp;
+	
+	plain_len = 0;
+	while (**format && **format != '%')
+		plain_len++;
+	*format = *format + plain_len;
+	plain_str = sub();
+	temp = *print_str;
+	*print_str = join(temp, plain_str);
+	free(temp);
+	free(plain_str);
+	if (*print_str == 0 || plain_str == 0)
+		return (ERR_MALLOC);
+	return (0);
 }
