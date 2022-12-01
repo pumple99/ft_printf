@@ -23,11 +23,23 @@
 # define ERR_PRECISION -4
 
 typedef unsigned long long	t_ull;
+typedef struct s_conv
+{
+	int		plus;
+	int		minus;
+	int		zero;
+	int		blank;
+	int		hash;
+	int		point;
+	t_ull	width;
+	t_ull	precision;
+}	t_conv;
 
 //ft_printf.c
 int		ft_printf(const char *format, ...);
 
 //ft_str_manage.c
 int		join_plain_str(const char **format, char **print_str);
+int		join_conversion_str(const char **format, char **print_str, va_list *ap);
 
 #endif

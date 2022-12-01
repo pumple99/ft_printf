@@ -49,13 +49,14 @@ int	ft_printf(const char *format, ...)
 	int			err;
 
 	err = 0;
+	print_str = 0;
 	va_start(ap, format);
 	while (*format)
 	{
 		if (*format != '%')
 			err = join_plain_str(&format, &print_str);
 		else
-			parse(&format);
+			err = join_conversion_str(&format, &print_str, &ap);
 		if (err)
 			break ;
 	}

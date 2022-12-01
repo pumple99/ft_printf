@@ -12,10 +12,9 @@
 
 #include "ft_printf.h"
 
-//need change, not complete
+//need change, not complete, join should join null and str
 int	join_plain_str(const char **format, char **print_str)
 {
-	int		err;
 	t_ull	plain_len;
 	char	*plain_str;
 	char	*temp;
@@ -32,4 +31,27 @@ int	join_plain_str(const char **format, char **print_str)
 	if (*print_str == 0 || plain_str == 0)
 		return (ERR_MALLOC);
 	return (0);
+}
+
+//need change, converge_format is not complete
+int	join_conversion_str(const char **format, char **print_str, va_list *ap)
+{
+	t_conv	format_manager;
+	char	*conv_str;
+	char	*temp;
+	int		err;
+	
+	err = 0;
+	(*format)++;
+	//initialize format_manager
+	get_flag(format, &format_manager);
+	get_rest(format, &format_manager);
+	conv_str = converge_format(format_manager, ap, &err);
+	temp = *print_str;
+	*print_str = join(temp, conv_str);
+	free(temp);
+	free(conv_str);
+	if (conv_str == 0 || temp == 0)
+		err = ERR_MALLOC;
+	return (err);
 }
