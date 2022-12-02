@@ -33,6 +33,7 @@ typedef struct s_conv
 	int		point;
 	t_ull	width;
 	t_ull	precision;
+	char	specifier;
 }	t_conv;
 
 //ft_printf.c
@@ -41,5 +42,8 @@ int		ft_printf(const char *format, ...);
 //ft_str_manage.c
 int		join_plain_str(const char **format, char **print_str);
 int		join_conversion_str(const char **format, char **print_str, va_list *ap);
+
+//ft_parse.c
+int	parse_format(const char **format, t_conv *conv_option);
 
 #endif

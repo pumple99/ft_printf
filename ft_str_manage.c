@@ -36,17 +36,16 @@ int	join_plain_str(const char **format, char **print_str)
 //need change, converge_format is not complete
 int	join_conversion_str(const char **format, char **print_str, va_list *ap)
 {
-	t_conv	format_manager;
+	t_conv	conv_option;
 	char	*conv_str;
 	char	*temp;
 	int		err;
 	
 	err = 0;
 	(*format)++;
-	//initialize format_manager
-	get_flag(format, &format_manager);
-	get_rest(format, &format_manager);
-	conv_str = converge_format(format_manager, ap, &err);
+	//initialize conv_option, set mem
+	err = parse_format(format, &conv_option);
+	conv_str = converge_format(conv_option, ap);
 	temp = *print_str;
 	*print_str = join(temp, conv_str);
 	free(temp);
