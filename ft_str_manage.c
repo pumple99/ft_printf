@@ -45,12 +45,24 @@ int	join_conversion_str(const char **format, char **print_str, va_list *ap)
 	(*format)++;
 	//initialize conv_option, set mem
 	err = parse_format(format, &conv_option);
-	conv_str = converge_format(conv_option, ap);
+	conv_str = converge_format(conv_option, ap, &err);
 	temp = *print_str;
 	*print_str = join(temp, conv_str);
 	free(temp);
 	free(conv_str);
-	if (conv_str == 0 || temp == 0)
+	if (print_str == 0)
 		err = ERR_MALLOC;
 	return (err);
+}
+
+int	malloc_set(char **str, char c, t_ull size)
+{
+	if (size == 0)
+		return (ERR_MALLOC);
+	*str = (char *)malloc(size);
+	if (*str == 0)
+		return (ERR_MALLOC);
+	memset(*str, c, size);
+	*str[size - 1] = 0;
+	return (0);
 }

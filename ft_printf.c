@@ -60,5 +60,6 @@ int	ft_printf(const char *format, ...)
 		if (err)
 			break ;
 	}
+	va_end(ap);
 	return (ft_print_str(print_str, err));
 }
