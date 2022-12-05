@@ -4,29 +4,37 @@ CFLAGS = -Werror -Wall -Wextra
 LIB = libft.a
 LIB_DIR = ./libft
 
-SRCS = ft_printf.c
+SRCS = ft_printf.c \
+	   ft_flag.c \
+	   ft_str_manage.c \
+	   ft_base16.c \
+	   ft_parse.c \
+	   ft_conversion.c \
+	   ft_conversion2.c
 SRCS_B = 
 
 OBJS = $(SRCS:.c=.o)
 OBJS_B = $(SRCS_B:.c=.o)
 
-all : $(OBJS) $(LIB)
-	ar -rcs $(NAME) $(OBJS)
+all : $(LIB) $(OBJS)
+	ar -rcs $(NAME) $(OBJS) 
 	rm -f bonus
 	touch all
 
 $(NAME) : all
 
-bonus : $(OBJS) $(OBJS_B) $(LIB)
+bonus : $(LIB) $(OBJS) $(OBJS_B)
 	ar -rcs $(NAME) $(OBJS) $(OBJS_B)
 	rm -f all
 	touch bonus
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $< $(LIB_DIR)/$(LIB)
+	$(CC) $(CFLAGS) -c $<
 
 $(LIB) :
 	make -C $(LIB_DIR) all
+	cp $(LIB_DIR)/$(LIB) $(NAME)
+
 
 clean :
 	make -C $(LIB_DIR) clean
@@ -40,4 +48,4 @@ re :
 	make fclean
 	make all
 
-.PHONY : clean fclean re $(LIB)
+.PHONY : clean fclean re

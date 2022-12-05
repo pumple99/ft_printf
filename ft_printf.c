@@ -6,13 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 13:17:24 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/11/30 15:52:04 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/05 18:25:04 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-//need change, use ft_strlen
 static int	return_strlen(char *print_str)
 {
 	t_ull	len;
