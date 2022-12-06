@@ -64,7 +64,7 @@ int	parse_format(const char **format, t_conv *conv_option)
 	parse_specifier(format, conv_option);
 	if (conv_option->width > INT_MAX)
 		return (ERR_WIDTH_OVER);
-	if (conv_option->precision == INT_MAX)
-		return (ERR_PRECISION);
+	if (conv_option->precision > INT_MAX)
+		return (ERR_PRECISION_OVER);
 	return (0);
 }

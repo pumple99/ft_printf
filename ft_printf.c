@@ -1,30 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/28 13:17:24 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/05 18:25:04 by seunghoy         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "ft_printf.h"
 
-static int	return_strlen(char *print_str)
-{
-	t_ull	len;
-
-	len = ft_strlen(print_str);
-	if (len > LLONG_MAX)
-		len = 0;
-	else if (len > INT_MAX)
-		len = ERR_RETURN_OVER;
-	return ((int)len);
-}
-
-static int	ft_print_str(char *print_str, int err)
+static int	print_pf(char *print_str, int err, t_ull pf_len)
 {
 	int	re;
 
@@ -33,15 +9,46 @@ static int	ft_print_str(char *print_str, int err)
 		re = err;
 	else
 	{
-		re = return_strlen(print_str);
-		if (re != ERR_RETURN_OVER)
-		{
-			if (-1 == ft_putstr_fd(print_str, 1))
-				re = ERR_WRITE;
-		}
+		re = (int)pf_len;
+		if (ft_putstr_fd(print_str, 1) == -1)
+			re = ERR_WRITE;
 	}
 	free(print_str);
 	return (re);
+}
+
+static t_ull	get_pf_len(const char *format, va_list *app, int *err)
+{
+	t_ull	len;
+	va_list	ap;
+	
+	len = 0;
+	va_copy(ap, *app);
+	while (*format && *err)
+	{
+		if (*format != '%')
+			len += get_plain_len(&format);
+		else
+			len += get_conv_len(&format, &ap, err);
+	}
+	va_end(ap);
+	return (len);
+}
+
+static char	*get_pf_str(t_ull pf_len, int *err)
+{
+	char	*pf_str;
+	
+	if (*err)
+		return (0);
+	pf_str = malloc(pf_len + 1);
+	if (pf_str == 0)
+	{
+		*err = ERR_MALLOC;
+		return (0);
+	}
+	pf_str[pf_len] = 0;
+	return (pf_str);
 }
 
 int	ft_printf(const char *format, ...)
@@ -49,19 +56,19 @@ int	ft_printf(const char *format, ...)
 	va_list		ap;
 	char		*print_str;
 	int			err;
+	t_ull		pf_len;
 
 	err = 0;
-	print_str = 0;
 	va_start(ap, format);
-	while (*format)
+	pf_len = get_pf_len(format, &ap, &err);
+	print_str = get_pf_str(pf_len, &err);
+	while (!err && *format)
 	{
 		if (*format != '%')
-			err = join_plain_str(&format, &print_str);
+			err = copy_plain_str(&format, print_str);
 		else
-			err = join_conversion_str(&format, &print_str, &ap);
-		if (err)
-			break ;
+			err = copy_conv_str(&format, &print_str, &ap);
 	}
 	va_end(ap);
-	return (ft_print_str(print_str, err));
+	return (print_pf(print_str, err, pf_len));
 }
