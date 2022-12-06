@@ -18,9 +18,10 @@
 # include "libft/libft.h"
 
 # define ERR_MALLOC -1
-# define ERR_RETURN_OVER -2
-# define ERR_WIDTH_OVER -3
-# define ERR_PRECISION -4
+# define ERR_RETURN_OVER -1
+# define ERR_WIDTH_OVER -1
+# define ERR_PRECISION -1
+# define ERR_WRITE -1
 
 typedef unsigned long long	t_ull;
 typedef struct s_conv
@@ -64,7 +65,8 @@ char	*conv_x_capital(t_conv conv_option, va_list *ap, int *err);
 char	*conv_percent(t_conv conv_option, int *err);
 
 //ft_flag.c
-void	width_flag(t_conv conv_option, char **str, int *err);
+void	width_blank_flag(t_conv conv_option, char **str, int *err);
+void	width_zero_flag(t_conv conv_option, char **str, int *err);
 void	hash_flag(t_conv conv_option, char **str, int *err);
 void	precision_flag(t_conv conv_option, char **str, int *err);
 void	blank_or_plus_flag(t_conv conv_option, char **str, int *err);

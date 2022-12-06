@@ -35,7 +35,10 @@ static int	ft_print_str(char *print_str, int err)
 	{
 		re = return_strlen(print_str);
 		if (re != ERR_RETURN_OVER)
-			ft_putstr_fd(print_str, 1);
+		{
+			if (-1 == ft_putstr_fd(print_str, 1))
+				re = ERR_WRITE;
+		}
 	}
 	free(print_str);
 	return (re);

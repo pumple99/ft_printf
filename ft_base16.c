@@ -34,6 +34,8 @@ static char	*ft_itoa_base(t_ull nbr, char *base)
 
 	size = get_itoa_len(nbr, base);
 	return_str = (char *)malloc(size + 1);
+	if (return_str == 0)
+		return (0);
 	return_str[size--] = 0;
 	while (size >= 0)
 	{

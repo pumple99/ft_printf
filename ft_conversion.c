@@ -46,7 +46,7 @@ char	*conv_c(t_conv conv_option, va_list *ap, int *err)
 	c = (char)va_arg(*ap, int);
 	if (malloc_set(&temp, c, 1, err))
 		return (0);
-	width_flag(conv_option, &temp, err);
+	width_blank_flag(conv_option, &temp, err);
 	return (temp);
 }
 
@@ -68,7 +68,7 @@ char	*conv_s(t_conv conv_option, va_list *ap, int *err)
 		*err = ERR_MALLOC;
 		return (0);
 	}
-	width_flag(conv_option, &temp, err);
+	width_blank_flag(conv_option, &temp, err);
 	return (temp);
 }
 
@@ -89,7 +89,8 @@ char	*conv_i(t_conv conv_option, va_list *ap, int *err)
 	precision_flag(conv_option, &temp, err);
 	if (num >= 0)
 		blank_or_plus_flag(conv_option, &temp, err);
-	width_flag(conv_option, &temp, err);
+	width_zero_flag(conv_option, &temp, err);
+	width_blank_flag(conv_option, &temp, err);
 	return (temp);
 }
 

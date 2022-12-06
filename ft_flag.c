@@ -12,34 +12,49 @@
 
 #include "ft_printf.h"
 
-void	width_flag(t_conv conv_option, char **str, int *err)
+void	width_blank_flag(t_conv conv_option, char **str, int *err)
 {
-	char	c;
-	char	t;
 	char	*width;
 	char	*temp;
 
-	c = ' ';
 	width = 0;
 	temp = *str;
-	if (ft_strlen(*str) < conv_option.width)
+	if (ft_strlen(*str) < conv_option.width && (conv_option.minus || \
+	!conv_option.zero || conv_option.point))
 	{
-		if (!conv_option.minus && conv_option.zero && !conv_option.point)
-			c = '0';
-		if (malloc_set(&width, c, conv_option.width - ft_strlen(*str), err))
+		if (malloc_set(&width, ' ', conv_option.width - ft_strlen(*str), err))
 			return ;
 		if (conv_option.minus)
 			*str = null_join(temp, width);
 		else
-		{
-			if ((temp[0] == '-' || temp[0] == '+' || temp[0] == ' ') && width[0] == '0')
-			{
-				t = temp[0];
-				temp[0] = width[0];
-				width[0] = t;
-			}
 			*str = null_join(width, temp);
+		free(temp);
+		free(width);
+		if (*str == 0)
+			*err = ERR_MALLOC;
+	}
+}
+
+void	width_zero_flag(t_conv conv_option, char **str, int *err)
+{
+	char	t;
+	char	*width;
+	char	*temp;
+
+	width = 0;
+	temp = *str;
+	if (ft_strlen(*str) < conv_option.width && !conv_option.minus && \
+	conv_option.zero && !conv_option.point)
+	{
+		if (malloc_set(&width, '0', conv_option.width - ft_strlen(*str), err))
+			return ;
+		if (temp && width && (temp[0] == '-' || temp[0] == '+' || temp[0] == ' '))
+		{
+			t = temp[0];
+			temp[0] = width[0];
+			width[0] = t;
 		}
+		*str = null_join(width, temp);
 		free(temp);
 		free(width);
 		if (*str == 0)
@@ -79,7 +94,7 @@ void	precision_flag(t_conv conv_option, char **str, int *err)
 			if (malloc_set(&precision, '0', conv_option.precision \
 			- ft_strlen(*str), err))
 				return ;
-			if (temp[0] == '-')
+			if (temp && precision && temp[0] == '-')
 			{
 				precision[0] = '-';
 				temp[0] = '0';

@@ -57,7 +57,7 @@ int	join_conversion_str(const char **format, char **print_str, va_list *ap)
 	*print_str = null_join(temp, conv_str);
 	free(temp);
 	free(conv_str);
-	if (print_str == 0)
+	if (*print_str == 0 || conv_str == 0)
 		err = ERR_MALLOC;
 	return (err);
 }
