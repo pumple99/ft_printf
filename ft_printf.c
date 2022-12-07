@@ -29,7 +29,7 @@ static t_ull	get_pf_len(const char *format, va_list *app, int *err)
 		if (*format != '%')
 			len += get_plain_len(&format);
 		else
-			len += get_conv_len(&format, &ap, err);
+			len += get_conv_len(&format, &ap);
 	}
 	va_end(ap);
 	return (len);
@@ -55,6 +55,7 @@ int	ft_printf(const char *format, ...)
 {
 	va_list		ap;
 	char		*print_str;
+	char		*temp;
 	int			err;
 	t_ull		pf_len;
 
@@ -62,12 +63,13 @@ int	ft_printf(const char *format, ...)
 	va_start(ap, format);
 	pf_len = get_pf_len(format, &ap, &err);
 	print_str = get_pf_str(pf_len, &err);
+	temp = print_str;
 	while (!err && *format)
 	{
 		if (*format != '%')
-			err = copy_plain_str(&format, print_str);
+			err = copy_plain_str(&format, &temp);
 		else
-			err = copy_conv_str(&format, &print_str, &ap);
+			err = copy_conv_str(&format, &temp, &ap);
 	}
 	va_end(ap);
 	return (print_pf(print_str, err, pf_len));
