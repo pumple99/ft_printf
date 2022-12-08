@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_copy.c                                          :+:      :+:    :+:   */
+/*   ft_copy_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:22:42 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 17:24:33 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:59:27 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 int	copy_plain_str(const char **format, char **temp)
 {

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_len.c                                           :+:      :+:    :+:   */
+/*   ft_len_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 18:38:23 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 18:41:30 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:59:46 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 int	get_itoa_len(t_ull nbr, char *base)
 {
@@ -43,13 +43,6 @@ t_ull	get_slen(int num, char *base)
 	return (len);
 }
 
-static t_ull	len_s(char *s)
-{
-	if (s == 0)
-		return (6);
-	return (ft_strlen(s));
-}
-
 t_ull	get_plain_len(const char **format)
 {
 	t_ull	pl;
@@ -63,31 +56,22 @@ t_ull	get_plain_len(const char **format)
 	return (pl);
 }
 
-t_ull	get_conv_len(const char **format, va_list *app)
+t_ull	get_conv_len(const char **format, va_list *app, int *err)
 {
-	t_ull	cl;
+	t_conv	conv_op;
 
-	cl = 0;
 	(*format)++;
-	if (**format == 'c')
-		va_arg(*app, int);
-	if (**format == 'c' || **format == '%')
-		cl = 1;
-	else if (**format == 's')
-		cl = len_s((char *)va_arg(*app, char *));
+	ft_memset(&conv_op, 0, sizeof(t_conv));
+	*err = parse_format(format, &conv_op);
+	if (conv_op.speci == 'c' || conv_op.speci == '%' || conv_op.speci == 'p')
+		return (conv_cpp_len(conv_op, app));
+	else if (conv_op.speci == 's')
+		return (conv_s_len(conv_op, app));
 	else if (**format == 'd' || **format == 'i')
-		cl = get_slen((int)va_arg(*app, int), "0123456789");
+		return (conv_di_len(conv_op, app));
 	else if (**format == 'u')
-		cl = (t_ull)get_itoa_len((unsigned int)va_arg(*app, \
-		unsigned int), "0123456789");
+		return (conv_u_len(conv_op, app));
 	else if (**format == 'X' || **format == 'x')
-		cl = (t_ull)get_itoa_len((unsigned int)va_arg(*app, \
-		unsigned int), "0123456789abcdef");
-	else if (**format == 'p')
-		cl = (t_ull)get_itoa_len((t_ull)va_arg(*app, t_ull), \
-				"0123456789abcdef") + 2;
-	else
-		return (0);
-	(*format)++;
-	return (cl);
+		return (conv_xs_len(conv_op, app));
+	return (0);
 }

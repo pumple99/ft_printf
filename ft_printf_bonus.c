@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printf_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 17:27:59 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 19:24:17 by seunghoy         ###   ########.fr       */
+/*   Created: 2022/12/08 19:00:36 by seunghoy          #+#    #+#             */
+/*   Updated: 2022/12/08 19:26:12 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static int	print_pf(char *print_str, int err, t_ull pf_len)
 {
@@ -44,7 +44,7 @@ static t_ull	get_pf_len(const char *format, va_list *app, int *err)
 		if (*format != '%')
 			len += get_plain_len(&format);
 		else
-			len += get_conv_len(&format, &ap);
+			len += get_conv_len(&format, &ap, err);
 	}
 	va_end(ap);
 	return (len);
