@@ -24,7 +24,22 @@ int	copy_plain_str(const char **format, char **temp)
 
 int	copy_conv_str(const char **format, char **temp, va_list *ap)
 {
-	int	err;
+	t_conv	conv_op;
+	int		err;
+
+	(*format)++;
+	ft_memset(&conv_op, 0, sizeof(t_conv));
+	err = parse_format(format, &conv_op);
+	if (conv_op.speci == 'c' || conv_op.speci == '%' || conv_op.speci == 'p')
+		return (conv_cpp_len(conv_op, app));
+	else if (conv_op.speci == 's')
+		return (conv_s_len(conv_op, app));
+	else if (**format == 'd' || **format == 'i')
+		return (conv_di_len(conv_op, app));
+	else if (**format == 'u')
+		return (conv_u_len(conv_op, app));
+	else if (**format == 'X' || **format == 'x')
+		return (conv_xs_len(conv_op, app));
 
 	err = 0;
 	(*format)++;
@@ -40,7 +55,6 @@ int	copy_conv_str(const char **format, char **temp, va_list *ap)
 		err = copy_s(temp, ap);
 	else
 		return (0);
-	(*format)++;
 	return (err);
 }
 

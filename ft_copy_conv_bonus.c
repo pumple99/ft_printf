@@ -45,7 +45,7 @@ int	copy_d_i(char **temp, va_list *ap)
 		copy_char(temp, '-', 1);
 		d *= -1;
 	}
-	copy_num_base(temp, (t_ull)d, "0123456789");
+	copy_num_base(temp, (t_ull)d, BASE_D);
 	return (0);
 }
 
@@ -54,12 +54,12 @@ int	copy_xs(const char **format, char **temp, va_list *ap)
 	t_ull	u;
 	char	*base;
 
-	base = "0123456789abcdef";
+	base = BASE_X;
 	u = (t_ull)va_arg(*ap, unsigned int);
 	if (**format == 'u')
-		base = "0123456789";
+		base = BASE_D;
 	else if (**format == 'X')
-		base = "0123456789ABCDEF";
+		base = BASE_X_CAP;
 	copy_num_base(temp, u, base);
 	return (0);
 }
@@ -70,6 +70,6 @@ int	copy_p(char **temp, va_list *ap)
 
 	u = (t_ull)va_arg(*ap, t_ull);
 	copy_str(temp, "0x", 2);
-	copy_num_base(temp, u, "0123456789abcdef");
+	copy_num_base(temp, u, BASE_X);
 	return (0);
 }

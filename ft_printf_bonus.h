@@ -22,6 +22,9 @@
 # define ERR_WIDTH_OVER -3
 # define ERR_PRECISION_OVER -4
 # define ERR_WRITE -1
+# define BASE_D "0123456789"
+# define BASE_X "0123456789abcdef"
+# define BASE_X_CAP "0123456789ABCDEF"
 
 typedef unsigned long long	t_ull;
 typedef unsigned int	t_ui;
