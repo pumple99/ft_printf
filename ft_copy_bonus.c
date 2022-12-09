@@ -22,7 +22,7 @@ int	copy_plain_str(const char **format, char **temp)
 	return (0);
 }
 
-int	copy_conv_str(const char **format, char **temp, va_list *ap)
+int	copy_conv_str(const char **format, char **temp, va_list *app)
 {
 	t_conv	conv_op;
 	int		err;
@@ -30,32 +30,23 @@ int	copy_conv_str(const char **format, char **temp, va_list *ap)
 	(*format)++;
 	ft_memset(&conv_op, 0, sizeof(t_conv));
 	err = parse_format(format, &conv_op);
-	if (conv_op.speci == 'c' || conv_op.speci == '%' || conv_op.speci == 'p')
-		return (conv_cpp_len(conv_op, app));
+	if (err)
+		return (err);
+	if (conv_op.speci == 'c')
+		return (conv_c(conv_op, app));
 	else if (conv_op.speci == 's')
-		return (conv_s_len(conv_op, app));
-	else if (**format == 'd' || **format == 'i')
-		return (conv_di_len(conv_op, app));
-	else if (**format == 'u')
-		return (conv_u_len(conv_op, app));
-	else if (**format == 'X' || **format == 'x')
-		return (conv_xs_len(conv_op, app));
-
-	err = 0;
-	(*format)++;
-	if (**format == 'c' || **format == '%')
-		err = copy_c_percent(format, temp, ap);
-	else if (**format == 'd' || **format == 'i')
-		err = copy_d_i(temp, ap);
-	else if (**format == 'x' || **format == 'X' || **format == 'u')
-		err = copy_xs(format, temp, ap);
-	else if (**format == 'p')
-		err = copy_p(temp, ap);
-	else if (**format == 's')
-		err = copy_s(temp, ap);
-	else
-		return (0);
-	return (err);
+		return (copy_s(temp, app, conv_op));
+	else if (conv_op.speci == 'd' || conv_op.speci == 'i')
+		return (copy_di(temp, app, conv_op));
+	else if (conv_op.speci == 'p')
+		return (copy_p(temp, app, conv_op));
+	else if (conv_op.speci == 'u')
+		return (copy_u(temp, app, conv_op));
+	else if (conv_op.speci == 'x' || conv_op.speci == 'X')
+		return (copy_xs(temp, app, conv_op));
+	else if (conv_op.speci == '%')
+		return (copy_percent(temp, conv_op));
+	return (0);
 }
 
 void	copy_char(char **dst, char c, t_ull len)
@@ -90,8 +81,8 @@ void	copy_str(char **dst, char *src, t_ull len)
 
 void	copy_num_base(char **dst, t_ull num, char *base)
 {
-	int	size;
-	int	size_copy;
+	int			size;
+	int			size_copy;
 
 	size = get_itoa_len(num, base);
 	size_copy = size--;

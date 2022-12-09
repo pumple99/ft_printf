@@ -12,64 +12,77 @@
 
 #include "ft_printf_bonus.h"
 
-int	copy_c_percent(const char **format, char **temp, va_list *ap)
+int	copy_p(char **temp, va_list *app, t_conv conv_op)
 {
+	t_ull	p;
+	t_ull	temp_len;
+
+	p = (t_ull)va_arg(*app, t_ull);
+	temp_len = (t_ull)get_itoa_len(p, BASE_X) + 2;
+	if (!conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, ' ', conv_op.width - temp_len);
+	copy_str(temp, "0x", 2);
+	copy_num_base(temp, p, BASE_X);
+	if (conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, ' ', conv_op.width - temp_len);
+	return (0);
+}
+
+int	copy_u(char **temp, va_list *app, t_conv conv_op)
+{
+	t_ui	u;
+	t_ull	temp_len;
 	char	c;
 
-	c = '%';
-	if (**format == 'c')
-		c = (char)va_arg(*ap, int);
-	copy_char(temp, c, 1);
+	c = ' ';
+	if (conv_op.zero)
+		c = '0';
+	u = (t_ui)va_arg(*app, t_ui);
+	temp_len = (t_ull)get_itoa_len((t_ull)u, BASE_D);
+	if (conv_op.point && conv_op.preci > temp_len)
+		temp_len = conv_op.preci;
+	if (!conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
+	copy_num_base(temp, (t_ull)u, BASE_D);
+	if (conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
 	return (0);
 }
 
-int	copy_s(char **temp, va_list *ap)
+int	copy_xs(char **temp, va_list *app, t_conv conv_op)
 {
-	char	*s;
+	t_ui	xs;
+	t_ull	temp_len;
+	char	c;
 
-	s = (char *)va_arg(*ap, char *);
-	if (s == 0)
-		copy_str(temp, "(null)", 6);
-	else
-		copy_str(temp, s, ft_strlen(s));
+	c = ' ';
+	if (conv_op.zero)
+		c = '0';
+	xs = (t_ui)va_arg(*app, t_ui);
+	temp_len = (t_ull)get_itoa_len((t_ull)xs, BASE_X);
+	if (conv_op.point && conv_op.preci > temp_len)
+		temp_len = conv_op.preci;
+	if (!conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
+	copy_num_base(temp, (t_ull)u, BASE_D);
+	if (conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
 	return (0);
 }
 
-int	copy_d_i(char **temp, va_list *ap)
+int	copy_percent(char **temp, t_conv conv_op)
 {
-	long long	d;
+	t_ull	temp_len;
+	char	c;
 
-	d = (long long)va_arg(*ap, int);
-	if (d < 0)
-	{
-		copy_char(temp, '-', 1);
-		d *= -1;
-	}
-	copy_num_base(temp, (t_ull)d, BASE_D);
-	return (0);
-}
-
-int	copy_xs(const char **format, char **temp, va_list *ap)
-{
-	t_ull	u;
-	char	*base;
-
-	base = BASE_X;
-	u = (t_ull)va_arg(*ap, unsigned int);
-	if (**format == 'u')
-		base = BASE_D;
-	else if (**format == 'X')
-		base = BASE_X_CAP;
-	copy_num_base(temp, u, base);
-	return (0);
-}
-
-int	copy_p(char **temp, va_list *ap)
-{
-	t_ull	u;
-
-	u = (t_ull)va_arg(*ap, t_ull);
-	copy_str(temp, "0x", 2);
-	copy_num_base(temp, u, BASE_X);
+	c = ' ';
+	if (conv_op.zero)
+		c = '0';
+	temp_len = 1;
+	if (!conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
+	copy_char(temp, '%', temp_len);
+	if (conv_op.minus && conv_op.width > temp_len)
+		copy_char(temp, c, conv_op.width - temp_len);
 	return (0);
 }

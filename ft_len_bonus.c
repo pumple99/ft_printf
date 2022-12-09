@@ -43,6 +43,19 @@ t_ull	get_slen(int num, char *base)
 	return (len);
 }
 
+t_ull	get_ulen(int num, char *base)
+{
+	t_ull		len;
+	long long	new_num;
+
+	len = 0;
+	new_num = (long long)num;
+	if (new_num < 0)
+		new_num *= -1;
+	len += (t_ull)get_itoa_len((t_ull)new_num, base);
+	return (len);
+}
+
 t_ull	get_plain_len(const char **format)
 {
 	t_ull	pl;

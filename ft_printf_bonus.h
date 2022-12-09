@@ -49,6 +49,7 @@ t_ull	get_plain_len(const char **format);
 t_ull	get_conv_len(const char **format, va_list *app, int *err);
 int		get_itoa_len(t_ull nbr, char *base);
 t_ull	get_slen(int num, char *base);
+t_ull	get_ulen(int num, char *base);
 
 //ft_len_conv_bonus.c
 t_ull	conv_cpp_len(t_conv conv_op, va_list *app);
@@ -66,8 +67,8 @@ void	copy_num_base(char **dst, t_ull num, char *base);
 
 //ft_copy_conv_bonus.c
 int		copy_c_percent(const char **format, char **temp, va_list *ap);
-int		copy_s(char **temp, va_list *ap);
-int		copy_d_i(char **temp, va_list *ap);
+int		copy_s(char **temp, va_list *ap, t_conv conv_op);
+int		copy_di(char **temp, va_list *ap, t_conv conv_op);
 int		copy_xs(const char **format, char **temp, va_list *ap);
 int		copy_p(char **temp, va_list *ap);
 
