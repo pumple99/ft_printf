@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/12/12 16:47:26 by seunghoy          #+#    #+#              #
+#    Updated: 2022/12/12 16:49:40 by seunghoy         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = libft.a
 CC = cc
 CFLAGS = -Werror -Wall -Wextra
@@ -47,10 +59,10 @@ SRCS = ft_isalpha.c \
 
 OBJS = $(SRCS:.c=.o)
 
-all : $(OBJS)
+$(NAME) : $(OBJS)
 	ar -rcs $(NAME) $(OBJS)
 
-$(NAME) : all
+all : $(NAME)
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $<
@@ -65,4 +77,4 @@ re :
 	make fclean
 	make all
 
-.PHONY : clean fclean
+.PHONY : clean fclean re

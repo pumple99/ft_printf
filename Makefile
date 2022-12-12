@@ -6,7 +6,7 @@
 #    By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 15:20:31 by seunghoy          #+#    #+#              #
-#    Updated: 2022/12/12 16:19:01 by seunghoy         ###   ########.fr        #
+#    Updated: 2022/12/12 16:56:44 by seunghoy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,12 +49,13 @@ bonus : $(LIB) $(OBJS_B)
 
 $(LIB) :
 	make -C $(LIB_DIR) all
-	cp $(LIB_DIR)/$(LIB) $(NAME)
+	cp $(LIB_DIR)/$(LIB) $(LIB)
+	cp $(LIB) $(NAME)
 
 
 clean :
 	make -C $(LIB_DIR) clean
-	rm -rf $(OBJS) $(OBJS_B) all bonus
+	rm -rf $(OBJS) $(OBJS_B) all bonus $(LIB)
 
 fclean : clean
 	make -C $(LIB_DIR) fclean
