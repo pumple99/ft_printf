@@ -1,81 +1,92 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_len_conv_bonus.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/12 14:22:46 by seunghoy          #+#    #+#             */
+/*   Updated: 2022/12/12 14:22:49 by seunghoy         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf_bonus.h"
 
-t_ull   conv_cpp_len(t_conv conv_op, va_list *app)
+t_ull	conv_cpp_len(t_conv op, va_list *app)
 {
-	t_ull	temp_len;
+	t_ull	t_len;
 
-	temp_len = 1;
-	if (conv_op.speci == 'c')
+	t_len = 1;
+	if (op.speci == 'c')
 		va_arg(*app, int);
-	else if (conv_op.speci == 'p')
-		temp_len = (t_ull)get_itoa_len((t_ull)va_arg(*app, t_ull), \
-		BASE_X) + 2;
-	if (conv_op.width > temp_len)
-		temp_len = conv_op.width;
-	return (temp_len);
+	else if (op.speci == 'p')
+		t_len = (t_ull)get_itoa_len((t_ull)va_arg(*app, t_ull), op) + 2;
+	if (op.width > t_len)
+		t_len = op.width;
+	return (t_len);
 }
 
-t_ull   conv_s_len(t_conv conv_op, va_list *app)
+t_ull	conv_s_len(t_conv op, va_list *app)
 {
 	char	*s;
-	t_ull	temp_len;
+	t_ull	t_len;
 
 	s = (char *)va_arg(*app, char *);
 	if (s == 0)
-		temp_len = 6;
+		t_len = 6;
 	else
-		temp_len = ft_strlen(s);
-	if (conv_op.point && conv_op.preci < temp_len)
-		temp_len = conv_op.preci;
-	if (conv_op.width > temp_len)
-		temp_len = conv_op.width;
-	return (temp_len);
+		t_len = ft_strlen(s);
+	if (op.point && op.preci < t_len)
+		t_len = op.preci;
+	if (op.width > t_len)
+		t_len = op.width;
+	return (t_len);
 }
 
-t_ull	conv_di_len(t_conv conv_op, va_list *app)
+t_ull	conv_di_len(t_conv op, va_list *app)
 {
 	int		di;
-	t_ull	temp_len;
-	
+	t_ull	t_len;
+
 	di = (int)va_arg(*app, int);
-	temp_len = get_slen(di, BASE_D);
+	t_len = get_slen(di, op);
 	if (di < 0)
-		temp_len--;
-	if (conv_op.point && conv_op.preci > temp_len)
-		temp_len = conv_op.preci;
-	if (di < 0 || conv_op.blank || conv_op.plus)
-		temp_len++;
-	if (conv_op.width > temp_len)
-		temp_len = conv_op.width;
-	return (temp_len);
+		t_len--;
+	if (op.point && op.preci > t_len)
+		t_len = op.preci;
+	if (di < 0 || op.blank || op.plus)
+		t_len++;
+	if (op.width > t_len)
+		t_len = op.width;
+	return (t_len);
 }
 
-t_ull	conv_u_len(t_conv conv_op, va_list *app)
+t_ull	conv_u_len(t_conv op, va_list *app)
 {
 	t_ui	u;
-	t_ull	temp_len;
-	
+	t_ull	t_len;
+
 	u = (t_ui)va_arg(*app, t_ui);
-	temp_len = (t_ull)get_itoa_len((t_ull)u, BASE_D);
-	if (conv_op.point && conv_op.preci > temp_len)
-		temp_len = conv_op.preci;
-	if (conv_op.width > temp_len)
-		temp_len = conv_op.width;
-	return (temp_len);
+	t_len = (t_ull)get_itoa_len((t_ull)u, op);
+	if (op.point && op.preci > t_len)
+		t_len = op.preci;
+	if (op.width > t_len)
+		t_len = op.width;
+	return (t_len);
 }
 
-t_ull	conv_xs_len(t_conv conv_op, va_list *app)
+t_ull	conv_xs_len(t_conv op, va_list *app)
 {
 	t_ull	xs;
-	t_ull	temp_len;
-	
+	t_ull	t_len;
+
 	xs = (t_ull)(t_ui)va_arg(*app, t_ui);
-	temp_len = (t_ull)get_itoa_len(xs, BASE_X);
-	if (conv_op.point && conv_op.preci > temp_len)
-		temp_len = conv_op.preci;
-	if (xs > 0 && conv_op.hash)
-		temp_len += 2;
-	if (conv_op.width > temp_len)
-		temp_len = conv_op.width;
-	return (temp_len);
+	t_len = (t_ull)get_itoa_len(xs, op);
+	if (op.point && op.preci > t_len)
+		t_len = op.preci;
+	if (xs > 0 && op.hash)
+		t_len += 2;
+	if (op.width > t_len)
+		t_len = op.width;
+	return (t_len);
 }

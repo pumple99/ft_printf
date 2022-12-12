@@ -12,12 +12,21 @@
 
 #include "ft_printf_bonus.h"
 
-int	get_itoa_len(t_ull nbr, char *base)
+int	get_itoa_len(t_ull nbr, t_conv op)
 {
-	int	len;
+	int		len;
+	char	*base;
 
+	base = BASE_D;
+	if (op.speci == 'p' || op.speci == 'X' || op.speci == 'x')
+		base = BASE_X;
 	if (nbr == 0)
+	{
+		if (op.point && (op.speci == 'd' || op.speci == 'i' || \
+		op.speci == 'u' || op.speci == 'X' || op.speci == 'x'))
+			return (0);
 		return (1);
+	}
 	len = 0;
 	while (nbr > 0)
 	{
@@ -27,7 +36,7 @@ int	get_itoa_len(t_ull nbr, char *base)
 	return (len);
 }
 
-t_ull	get_slen(int num, char *base)
+t_ull	get_slen(int num, t_conv op)
 {
 	t_ull		len;
 	long long	new_num;
@@ -39,20 +48,19 @@ t_ull	get_slen(int num, char *base)
 		len += 1;
 		new_num *= -1;
 	}
-	len += (t_ull)get_itoa_len((t_ull)new_num, base);
+	len += (t_ull)get_itoa_len((t_ull)new_num, op);
 	return (len);
 }
 
-t_ull	get_ulen(int num, char *base)
+t_ull	get_ulen(int num, t_conv op)
 {
 	t_ull		len;
 	long long	new_num;
 
-	len = 0;
 	new_num = (long long)num;
 	if (new_num < 0)
 		new_num *= -1;
-	len += (t_ull)get_itoa_len((t_ull)new_num, base);
+	len = (t_ull)get_itoa_len((t_ull)new_num, op);
 	return (len);
 }
 
@@ -71,20 +79,20 @@ t_ull	get_plain_len(const char **format)
 
 t_ull	get_conv_len(const char **format, va_list *app, int *err)
 {
-	t_conv	conv_op;
+	t_conv	op;
 
 	(*format)++;
-	ft_memset(&conv_op, 0, sizeof(t_conv));
-	*err = parse_format(format, &conv_op);
-	if (conv_op.speci == 'c' || conv_op.speci == '%' || conv_op.speci == 'p')
-		return (conv_cpp_len(conv_op, app));
-	else if (conv_op.speci == 's')
-		return (conv_s_len(conv_op, app));
-	else if (**format == 'd' || **format == 'i')
-		return (conv_di_len(conv_op, app));
-	else if (**format == 'u')
-		return (conv_u_len(conv_op, app));
-	else if (**format == 'X' || **format == 'x')
-		return (conv_xs_len(conv_op, app));
+	ft_memset(&op, 0, sizeof(t_conv));
+	*err = parse_format(format, &op);
+	if (op.speci == 'c' || op.speci == '%' || op.speci == 'p')
+		return (conv_cpp_len(op, app));
+	else if (op.speci == 's')
+		return (conv_s_len(op, app));
+	else if (op.speci == 'd' || op.speci == 'i')
+		return (conv_di_len(op, app));
+	else if (op.speci == 'u')
+		return (conv_u_len(op, app));
+	else if (op.speci == 'X' || op.speci == 'x')
+		return (conv_xs_len(op, app));
 	return (0);
 }

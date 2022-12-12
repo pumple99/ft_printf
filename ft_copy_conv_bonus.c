@@ -12,77 +12,87 @@
 
 #include "ft_printf_bonus.h"
 
-int	copy_p(char **temp, va_list *app, t_conv conv_op)
+int	copy_p(char **temp, va_list *app, t_conv op)
 {
 	t_ull	p;
-	t_ull	temp_len;
+	t_ull	t_len;
 
 	p = (t_ull)va_arg(*app, t_ull);
-	temp_len = (t_ull)get_itoa_len(p, BASE_X) + 2;
-	if (!conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, ' ', conv_op.width - temp_len);
-	copy_str(temp, "0x", 2);
-	copy_num_base(temp, p, BASE_X);
-	if (conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, ' ', conv_op.width - temp_len);
+	t_len = (t_ull)get_itoa_len(p, op) + 2;
+	copy_char(temp, ' ', op.width - t_len, !op.minus && op.width > t_len);
+	copy_str(temp, "0x", 2, 1);
+	copy_num_base(temp, p, op);
+	copy_char(temp, ' ', op.width - t_len, op.minus && op.width > t_len);
 	return (0);
 }
 
-int	copy_u(char **temp, va_list *app, t_conv conv_op)
+int	copy_u(char **temp, va_list *app, t_conv op)
 {
 	t_ui	u;
-	t_ull	temp_len;
+	t_ull	t_len;
 	char	c;
 
 	c = ' ';
-	if (conv_op.zero)
+	if (op.zero)
 		c = '0';
 	u = (t_ui)va_arg(*app, t_ui);
-	temp_len = (t_ull)get_itoa_len((t_ull)u, BASE_D);
-	if (conv_op.point && conv_op.preci > temp_len)
-		temp_len = conv_op.preci;
-	if (!conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
-	copy_num_base(temp, (t_ull)u, BASE_D);
-	if (conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
+	t_len = (t_ull)get_itoa_len((t_ull)u, op);
+	if (op.point && op.preci > t_len)
+		t_len = op.preci;
+	copy_char(temp, c, op.width - t_len, !op.minus && op.width > t_len);
+	if (op.point && op.preci > (t_ull)get_itoa_len((t_ull)u, op))
+		copy_char(temp, '0', op.preci - (t_ull)get_itoa_len((t_ull)u, op), 1);
+	copy_num_base(temp, (t_ull)u, op);
+	copy_char(temp, c, op.width - t_len, op.minus && op.width > t_len);
 	return (0);
 }
 
-int	copy_xs(char **temp, va_list *app, t_conv conv_op)
+static void	copy_hash(char **temp, t_conv op, int con)
+{
+	char	*str;
+
+	str = "0x";
+	if (op.speci == 'X')
+		str = "0X";
+	copy_str(temp, str, 2, con);
+}
+
+int	copy_xs(char **temp, va_list *app, t_conv op)
 {
 	t_ui	xs;
-	t_ull	temp_len;
+	t_ull	t_len;
 	char	c;
 
 	c = ' ';
-	if (conv_op.zero)
+	if (op.zero)
 		c = '0';
 	xs = (t_ui)va_arg(*app, t_ui);
-	temp_len = (t_ull)get_itoa_len((t_ull)xs, BASE_X);
-	if (conv_op.point && conv_op.preci > temp_len)
-		temp_len = conv_op.preci;
-	if (!conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
-	copy_num_base(temp, (t_ull)u, BASE_D);
-	if (conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
+	t_len = (t_ull)get_itoa_len((t_ull)xs, op);
+	if (op.point && op.preci > t_len)
+		t_len = op.preci;
+	if (op.hash && xs)
+		t_len += 2;
+	copy_hash(temp, op, op.hash && xs && op.zero);
+	copy_char(temp, c, op.width - t_len, !op.minus && op.width > t_len);
+	copy_hash(temp, op, op.hash && xs && !op.zero);
+	if (op.point && op.preci > (t_ull)get_itoa_len((t_ull)xs, op))
+		copy_char(temp, '0', op.preci - (t_ull)get_itoa_len((t_ull)xs, op), 1);
+	copy_num_base(temp, (t_ull)xs, op);
+	copy_char(temp, c, op.width - t_len, op.minus && op.width > t_len);
 	return (0);
 }
 
-int	copy_percent(char **temp, t_conv conv_op)
+int	copy_percent(char **temp, t_conv op)
 {
-	t_ull	temp_len;
+	t_ull	t_len;
 	char	c;
 
 	c = ' ';
-	if (conv_op.zero)
+	if (op.zero)
 		c = '0';
-	temp_len = 1;
-	if (!conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
-	copy_char(temp, '%', temp_len);
-	if (conv_op.minus && conv_op.width > temp_len)
-		copy_char(temp, c, conv_op.width - temp_len);
+	t_len = 1;
+	copy_char(temp, c, op.width - t_len, !op.minus && op.width > t_len);
+	copy_char(temp, '%', t_len, 1);
+	copy_char(temp, c, op.width - t_len, op.minus && op.width > t_len);
 	return (0);
 }

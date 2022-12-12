@@ -27,7 +27,7 @@
 # define BASE_X_CAP "0123456789ABCDEF"
 
 typedef unsigned long long	t_ull;
-typedef unsigned int	t_ui;
+typedef unsigned int		t_ui;
 typedef struct s_conv
 {
 	int		plus;
@@ -47,32 +47,36 @@ int		ft_printf(const char *format, ...);
 //ft_len_bonus.c
 t_ull	get_plain_len(const char **format);
 t_ull	get_conv_len(const char **format, va_list *app, int *err);
-int		get_itoa_len(t_ull nbr, char *base);
-t_ull	get_slen(int num, char *base);
-t_ull	get_ulen(int num, char *base);
+int		get_itoa_len(t_ull nbr, t_conv op);
+t_ull	get_slen(int num, t_conv op);
+t_ull	get_ulen(int num, t_conv op);
 
 //ft_len_conv_bonus.c
-t_ull	conv_cpp_len(t_conv conv_op, va_list *app);
-t_ull	conv_s_len(t_conv conv_op, va_list *app);
-t_ull	conv_di_len(t_conv conv_op, va_list *app);
-t_ull	conv_u_len(t_conv conv_op, va_list *app);
-t_ull	conv_xs_len(t_conv conv_op, va_list *app);
+t_ull	conv_cpp_len(t_conv op, va_list *app);
+t_ull	conv_s_len(t_conv op, va_list *app);
+t_ull	conv_di_len(t_conv op, va_list *app);
+t_ull	conv_u_len(t_conv op, va_list *app);
+t_ull	conv_xs_len(t_conv op, va_list *app);
 
 //ft_copy_bonus.c
 int		copy_plain_str(const char **format, char **temp);
 int		copy_conv_str(const char **format, char **temp, va_list *ap);
-void	copy_char(char **dst, char c, t_ull len);
-void	copy_str(char **dst, char *src, t_ull len);
-void	copy_num_base(char **dst, t_ull num, char *base);
+void	copy_char(char **dst, char c, t_ull len, int con);
+void	copy_str(char **dst, char *src, t_ull len, int con);
+void	copy_num_base(char **dst, t_ull num, t_conv op);
 
 //ft_copy_conv_bonus.c
-int		copy_c_percent(const char **format, char **temp, va_list *ap);
-int		copy_s(char **temp, va_list *ap, t_conv conv_op);
-int		copy_di(char **temp, va_list *ap, t_conv conv_op);
-int		copy_xs(const char **format, char **temp, va_list *ap);
-int		copy_p(char **temp, va_list *ap);
+int		copy_p(char **temp, va_list *app, t_conv op);
+int		copy_u(char **temp, va_list *app, t_conv op);
+int		copy_xs(char **temp, va_list *app, t_conv op);
+int		copy_percent(char **temp, t_conv op);
+
+//ft_copy_conv2_bonus.c
+int		copy_c(char **temp, va_list *app, t_conv op);
+int		copy_s(char **temp, va_list *app, t_conv op);
+int		copy_di(char **temp, va_list *app, t_conv op);
 
 //ft_parse_bonus.c
-int		parse_format(const char **format, t_conv *conv_op);
+int		parse_format(const char **format, t_conv *op);
 
 #endif

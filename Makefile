@@ -6,7 +6,7 @@
 #    By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 15:20:31 by seunghoy          #+#    #+#              #
-#    Updated: 2022/12/08 15:22:02 by seunghoy         ###   ########.fr        #
+#    Updated: 2022/12/12 16:19:01 by seunghoy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,13 @@ SRCS = ft_printf.c \
 	   ft_copy.c \
 	   ft_copy_conv.c
 
-SRCS_B = 
+SRCS_B = ft_copy_bonus.c \
+		 ft_copy_conv2_bonus.c \
+		 ft_copy_conv_bonus.c \
+		 ft_len_bonus.c \
+		 ft_len_conv_bonus.c \
+		 ft_parse_bonus.c \
+		 ft_printf_bonus.c
 
 OBJS = $(SRCS:.c=.o)
 OBJS_B = $(SRCS_B:.c=.o)
@@ -33,10 +39,10 @@ all : $(LIB) $(OBJS)
 
 $(NAME) : all
 
-#bonus : $(LIB) $(OBJS) $(OBJS_B)
-#	ar -rcs $(NAME) $(OBJS) $(OBJS_B)
-#	rm -f all
-#	touch bonus
+bonus : $(LIB) $(OBJS_B)
+	ar -rcs $(NAME) $(OBJS_B)
+	rm -f all
+	touch bonus
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $<
