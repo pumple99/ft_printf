@@ -6,11 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 14:22:26 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/12 14:22:28 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:16:17 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
+#include "libft/libft.h"
 
 int	copy_c(char **temp, va_list *app, t_conv op)
 {

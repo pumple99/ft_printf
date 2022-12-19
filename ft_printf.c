@@ -6,11 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:27:59 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 19:24:17 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:14:11 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft/libft.h"
 
 static int	print_pf(char *print_str, int err, t_ull pf_len)
 {

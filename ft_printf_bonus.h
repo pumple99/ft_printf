@@ -6,7 +6,7 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:16:58 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 19:20:21 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:07:30 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "libft/libft.h"
 
 # define ERR_MALLOC -1
 # define ERR_RETURN_OVER -2

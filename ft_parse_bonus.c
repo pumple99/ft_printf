@@ -6,11 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 19:00:19 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 19:00:21 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:18:06 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
+#include "libft/libft.h"
 
 static void	parse_flag(const char **format, t_conv *op)
 {

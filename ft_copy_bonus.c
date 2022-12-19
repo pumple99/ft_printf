@@ -6,11 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:22:42 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 18:59:27 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:15:59 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
+#include "libft/libft.h"
 
 int	copy_plain_str(const char **format, char **temp)
 {

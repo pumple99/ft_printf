@@ -6,11 +6,9 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 13:10:49 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/11/12 13:13:07 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:05:22 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 int	ft_tolower(int c)
 {

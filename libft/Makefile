@@ -6,7 +6,7 @@
 #    By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 16:47:26 by seunghoy          #+#    #+#              #
-#    Updated: 2022/12/12 16:49:40 by seunghoy         ###   ########.fr        #
+#    Updated: 2022/12/19 14:01:47 by seunghoy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRCS = ft_isalpha.c \
          ft_lstmap_bonus.c
 
 OBJS = $(SRCS:.c=.o)
+DEPS = $(OBJS:.o=.d)
 
 $(NAME) : $(OBJS)
 	ar -rcs $(NAME) $(OBJS)
@@ -65,10 +66,10 @@ $(NAME) : $(OBJS)
 all : $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS) -c -I. -MMD $<
 
 clean :
-	rm -rf $(OBJS) 
+	rm -rf $(OBJS) $(DEPS)
 
 fclean : clean
 	rm -rf $(NAME)
@@ -76,5 +77,9 @@ fclean : clean
 re :
 	make fclean
 	make all
+
+ifeq "$(filter clean fclean re,$(MAKECMDGOALS))" ""
+-include $(DEPS)
+endif
 
 .PHONY : clean fclean re

@@ -6,11 +6,12 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 17:27:29 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/12/08 17:27:31 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:15:09 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "libft/libft.h"
 
 int	copy_c_percent(const char **format, char **temp, va_list *ap)
 {

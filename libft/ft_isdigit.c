@@ -6,11 +6,9 @@
 /*   By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:10:58 by seunghoy          #+#    #+#             */
-/*   Updated: 2022/11/11 17:25:48 by seunghoy         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:03:03 by seunghoy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 int	ft_isdigit(int c)
 {
