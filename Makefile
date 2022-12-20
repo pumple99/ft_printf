@@ -6,7 +6,7 @@
 #    By: seunghoy <seunghoy@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/08 15:20:31 by seunghoy          #+#    #+#              #
-#    Updated: 2022/12/19 14:22:16 by seunghoy         ###   ########.fr        #
+#    Updated: 2022/12/20 15:59:46 by seunghoy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ OBJS_B = $(SRCS_B:.c=.o)
 DEPS = $(OBJS:.o=.d) $(OBJS_B:.o=.d)
 
 all : $(LIB)
+	rm -f $(NAME)
+	cp $(LIB) $(NAME)
 	make all_temp
 
 all_temp : $(OBJS)
@@ -44,6 +46,8 @@ all_temp : $(OBJS)
 $(NAME) : all
 
 bonus : $(LIB)
+	rm -f $(NAME)
+	cp $(LIB) $(NAME)
 	make bonus_temp
 
 bonus_temp : $(OBJS_B)
@@ -57,8 +61,6 @@ bonus_temp : $(OBJS_B)
 $(LIB) :
 	make -C $(LIB_DIR) all
 	cp $(LIB_DIR)/$(LIB) $(LIB)
-	cp $(LIB) $(NAME)
-
 
 clean :
 	make -C $(LIB_DIR) clean
